@@ -13,15 +13,33 @@ def print_in_box(message)
 end
 =end
 
-def print_in_box(message)
-  top_bottom_border = "+-#{'-' * (message.size)}-+"
-  side_border = "| #{' ' * (message.size)} |"
+def print_message(message)
+  start = 0
+  while start < message.size
+    length = [message.size - start, 76].min
+    unless length < 76
+      length -= 1 until message[start + length] == ' '
+    end
 
-  puts top_bottom_border
-  puts side_border
-  puts "| #{message} |"
-  puts side_border
-  puts top_bottom_border
+    stop = length + start
+    string = message[start...stop]
+    string = string.center(76)
+    puts "| #{string} |"
+    start = stop
+  end
 end
 
-print_in_box("HELLO WORLD")
+def print_in_box(message)
+  length = [message.size, 76].min
+  horizontal_rule = "+ #{'-' * length} +"
+  empty_line = "| #{' ' * length} |"
+  
+  puts horizontal_rule
+  puts empty_line
+  print_message(message)
+  puts empty_line
+  puts horizontal_rule
+end
+
+
+print_in_box("Modify this method so it will truncate the message if it will be too wide to fit inside a standard terminal window (80 columns, including the sides of the box). For a real challenge, try word wrapping very long messages so they appear on multiple lines, but still within a box.")
